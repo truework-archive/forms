@@ -27,6 +27,7 @@ import { Dropdown, DropdownFieldWithLabel } from './Dropdown'
 import { SSNInput, SSNInputFieldWithLabel } from './SSNInput'
 import { Tile } from './Tile'
 import { ErrorMessage } from './ErrorMessage'
+import { DateInputTypeIn } from './DateInputTypeIn'
 
 storiesOf('Base', module).add('SSN', () => (
   <Gutter withVertical>
@@ -260,6 +261,10 @@ storiesOf('Base', module).add('DateInput', () => (
     <Box mb='med'>
       <Label>Date</Label>
       <DateInput name='date' label='Date' onUpdate={() => {}} />
+    </Box>
+
+    <Box mb='med'>
+      <DateInputTypeIn name='date' label='Date' />
     </Box>
   </Gutter>
 ))
