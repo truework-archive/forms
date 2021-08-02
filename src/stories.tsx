@@ -27,6 +27,7 @@ import { Dropdown, DropdownFieldWithLabel } from './Dropdown'
 import { SSNInput, SSNInputFieldWithLabel } from './SSNInput'
 import { Tile } from './Tile'
 import { ErrorMessage } from './ErrorMessage'
+import { DateInputTypeInFieldWithLabel } from './DateInputTypeIn'
 
 storiesOf('Base', module).add('SSN', () => (
   <Gutter withVertical>
@@ -464,6 +465,12 @@ storiesOf('Formik', module).add('Basic', () => (
         </Box>
         <Box mb='med'>
           <DateInputFieldWithLabel name='date' label='Date' />
+        </Box>
+        <Box mb='med'>
+          <DateInputTypeInFieldWithLabel
+            name='dateTypeIn'
+            label='Date Type In'
+          />
         </Box>
         <Box mb='med'>
           <DropdownFieldWithLabel
