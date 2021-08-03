@@ -6,6 +6,8 @@ import { Box, Icon } from '@truework/ui'
 
 import { getLastDayOfMonth, zeroPadDate } from './utils/date'
 import { Label } from './Label'
+import MaskedInput from 'react-text-mask'
+import { Input, InputProps } from './Input'
 
 export type DateValidationOptions = {
   initialMonth?: number
@@ -356,5 +358,77 @@ export function DateInputFieldWithLabel (
       <Label htmlFor={props.name}>{props.label}</Label>
       <DateInputField {...props} />
     </>
+  )
+}
+
+// Type-in Date Input
+
+const dateMask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]
+
+export function DateInputTypeIn ({
+  name,
+  hasError,
+  onChange,
+  onBlur,
+  ...rest
+}: InputProps) {
+  return (
+    <MaskedInput
+      name={name}
+      mask={dateMask}
+      id='date'
+      placeholder='mm/dd/yyyy'
+      type='text'
+      onChange={onChange}
+      onBlur={onBlur}
+      render={(inputRef, props) => (
+        <Input
+          name={name}
+          ref={inputRef}
+          hasError={hasError}
+          {...props}
+          {...rest}
+        />
+      )}
+    />
+  )
+}
+
+export function DateInputTypeInField ({ name, ...rest }: InputProps) {
+  const validate = React.useCallback((value: string) => {
+    if (!value) {
+      return 'Required'
+    }
+
+    const moment = require('moment')
+    const [month, day, year] = value.split('/').map(v => parseInt(v))
+
+    if (year < 1900) {
+      return 'The date you entered is not a valid date.'
+    }
+
+    const dateIsValid = moment([year, month - 1, day]).isValid()
+    if (!dateIsValid) {
+      return 'The date you entered is not a valid date.'
+    }
+
+    return
+  }, [])
+
+  return (
+    <Field name={name} validate={validate}>
+      {({ field, form }: FieldProps) => {
+        const hasError = Boolean(get(form, ['errors', name]))
+
+        return (
+          <DateInputTypeIn
+            {...field}
+            {...rest}
+            name={name}
+            hasError={hasError}
+          />
+        )
+      }}
+    </Field>
   )
 }
