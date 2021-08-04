@@ -22,11 +22,16 @@ import { Textarea, TextareaFieldWithLabel } from './Textarea'
 import { Checkbox, CheckboxField, CheckboxGroup } from './Checkbox'
 import { Radio, RadioFieldWithLabel } from './Radio'
 import { Toggle, ToggleField } from './Toggle'
-import { DateInput, DateInputFieldWithLabel } from './DateInput'
+import {
+  DateInput,
+  DateInputFieldWithLabel,
+  DateInputTypeInRef
+} from './DateInput'
 import { Dropdown, DropdownFieldWithLabel } from './Dropdown'
 import { SSNInput, SSNInputFieldWithLabel } from './SSNInput'
 import { Tile } from './Tile'
 import { ErrorMessage } from './ErrorMessage'
+import { DateInputTypeIn } from './DateInputScratch'
 
 storiesOf('Base', module).add('SSN', () => (
   <Gutter withVertical>
@@ -261,6 +266,14 @@ storiesOf('Base', module).add('DateInput', () => (
       <Label>Date</Label>
       <DateInput name='date' label='Date' onUpdate={() => {}} />
     </Box>
+
+    <Label>Date Type In</Label>
+    <Box mb='med'>
+      <DateInputTypeIn />
+    </Box>
+    {/*<Box mb='med'>*/}
+    {/*  <DateInputTypeInRef/>*/}
+    {/*</Box>*/}
   </Gutter>
 ))
 

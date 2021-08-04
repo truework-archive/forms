@@ -6,6 +6,8 @@ import { Box, Icon } from '@truework/ui'
 
 import { getLastDayOfMonth, zeroPadDate } from './utils/date'
 import { Label } from './Label'
+import MaskedInput, { MaskedInputProps } from 'react-text-mask'
+import { Input } from './Input'
 
 export type DateValidationOptions = {
   initialMonth?: number
@@ -358,3 +360,157 @@ export function DateInputFieldWithLabel (
     </>
   )
 }
+
+// Type-in Date Input
+
+const dateMask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]
+
+const StyledMaskedInput = styled(MaskedInput)(
+  ({ theme }) => css`
+    appearance: none;
+    border: none;
+    display: block;
+    position: relative;
+    font-family: ${theme.fonts.roboto};
+    font-family: ${theme.fonts.mono};
+    color: ${theme.colors.primary};
+    font-size: ${theme.fontSizes[1]};
+    line-height: ${theme.lineHeights[0]};
+    letter-spacing: 0.6px;
+    width: 100%;
+    margin: 1px;
+    border-radius: 4px;
+    min-height: 46px;
+    padding: '14px 16px';
+    background: transparent;
+    color: ${theme.colors.body};
+    cursor: pointer;
+    z-index: 2;
+    transition-property: border-color, color;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+
+    &::placeholder {
+      font-family: ${theme.fonts.mono};
+      color: ${theme.colors.primary};
+      line-height: ${theme.lineHeights[0]};
+      opacity: 1;
+    }
+    &:-webkit-autofill {
+      -webkit-text-fill-color: ${theme.colors.body};
+      -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    }
+    &:disabled {
+      background: transparent;
+      color: ${theme.colors.placeholder};
+      cursor: not-allowed;
+      & ~ .__border {
+        background: ${theme.colors.background};
+        cursor: not-allowed;
+      }
+    }
+    &:invalid,
+    &:not(:disabled):active,
+    &:not(:disabled):focus,
+    &:not(:disabled):hover {
+      outline: 0;
+      color: ${theme.colors.body};
+
+      & ~ .__bg {
+        opacity: 1;
+      }
+      & ~ .__border {
+        border-color: ${theme.colors.primary};
+      }
+    }
+  `
+)
+
+export function DateInputTypeIn () {
+  const hasError = false
+
+  return (
+    <>
+      <Box display='flex' alignItems='center' height='48px' pl='56px'>
+        <StyledMaskedInput
+          mask={dateMask}
+          id='date'
+          placeholder='mm/dd/yyyy'
+          type='text'
+        />
+
+        <Box
+          className='__bg'
+          bg={hasError ? 'error-alpha01' : 'primary-alpha01'}
+          position='absolute'
+          top='-2px'
+          bottom='-2px'
+          left='-2px'
+          right='-2px'
+          zIndex={0}
+          borderRadius='6px'
+          opacity={0}
+          transitionProperty='opacity'
+          transitionDuration='fast'
+          transitionTimingFunction='ease'
+        />
+        <Box
+          className='__border'
+          bg='white'
+          border={['1px solid', hasError ? 'error' : 'outline']}
+          position='absolute'
+          top='0'
+          bottom='0'
+          left='0'
+          right='0'
+          zIndex={0}
+          borderRadius='4px'
+          transitionProperty='border-color'
+          transitionDuration='fast'
+          transitionTimingFunction='ease'
+        >
+          <Box
+            aria-hidden='true'
+            position='absolute'
+            top='0'
+            left='0'
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
+            px='sm'
+            height='100%'
+            zIndex={0}
+            color={hasError ? 'error' : 'secondary'}
+            bg={hasError ? '#FDEBF0' : 'background'}
+            borderTopLeftRadius='4px'
+            borderBottomLeftRadius='4px'
+            borderRight={['1px solid', hasError ? 'error' : 'outline']}
+            transitionProperty='border-color, color'
+            transitionDuration='fast'
+            transitionTimingFunction='ease'
+          >
+            <Icon name='Calendar' />
+          </Box>
+        </Box>
+      </Box>
+    </>
+  )
+}
+
+export function DateInputTypeInRef () {
+  return (
+    <MaskedInput
+      mask={dateMask}
+      id='date'
+      placeholder='mm/dd/yyyy'
+      type='text'
+      render={(ref, props) => (
+        <Input innerRef={ref} name='dateTypeIn' {...props} />
+      )}
+    />
+  )
+}
+
+export function DateInputTypeInField () {}
+
+export function DateInputTypeInFieldWithLabel () {}
