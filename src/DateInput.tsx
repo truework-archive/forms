@@ -498,14 +498,16 @@ export function DateInputTypeIn () {
 }
 
 export function DateInputTypeInRef () {
+  const inputRef = React.createRef()
+
   return (
     <MaskedInput
       mask={dateMask}
       id='date'
       placeholder='mm/dd/yyyy'
       type='text'
-      render={(ref, props) => (
-        <Input innerRef={ref} name='dateTypeIn' {...props} />
+      render={(inputRef, props) => (
+        <Input innerRef={inputRef} name='dateTypeIn' {...props} />
       )}
     />
   )

@@ -271,9 +271,9 @@ storiesOf('Base', module).add('DateInput', () => (
     <Box mb='med'>
       <DateInputTypeIn />
     </Box>
-    {/*<Box mb='med'>*/}
-    {/*  <DateInputTypeInRef/>*/}
-    {/*</Box>*/}
+    <Box mb='med'>
+      <DateInputTypeInRef />
+    </Box>
   </Gutter>
 ))
 
