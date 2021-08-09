@@ -87,6 +87,7 @@
     "imask": "^6.1.0",
     "lodash": "^4.17.15",
     "parse-ssn": "^0.3.2",
+    "react-imask": "^6.1.0",
     "use-drop": "^0.5.1"
   }
 }
