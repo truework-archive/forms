@@ -84,6 +84,7 @@
   },
   "dependencies": {
     "formik": "^2.1.5",
+    "imask": "^6.1.0",
     "lodash": "^4.17.15",
     "parse-ssn": "^0.3.2",
     "use-drop": "^0.5.1"
