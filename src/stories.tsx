@@ -22,7 +22,12 @@ import { Textarea, TextareaFieldWithLabel } from './Textarea'
 import { Checkbox, CheckboxField, CheckboxGroup } from './Checkbox'
 import { Radio, RadioFieldWithLabel } from './Radio'
 import { Toggle, ToggleField } from './Toggle'
-import { DateInput, DateInputFieldWithLabel } from './DateInput'
+import {
+  DateInput,
+  DateInputFieldWithLabel,
+  DateInputTypeIn,
+  DateInputTypeInFieldWithLabel
+} from './DateInput'
 import { Dropdown, DropdownFieldWithLabel } from './Dropdown'
 import { SSNInput, SSNInputFieldWithLabel } from './SSNInput'
 import { Tile } from './Tile'
@@ -261,6 +266,10 @@ storiesOf('Base', module).add('DateInput', () => (
       <Label>Date</Label>
       <DateInput name='date' label='Date' onUpdate={() => {}} />
     </Box>
+    <Box mb='med'>
+      <Label>Date Type-in</Label>
+      <DateInputTypeIn name='dateTypeIn' />
+    </Box>
   </Gutter>
 ))
 
@@ -464,6 +473,12 @@ storiesOf('Formik', module).add('Basic', () => (
         </Box>
         <Box mb='med'>
           <DateInputFieldWithLabel name='date' label='Date' />
+        </Box>
+        <Box mb='med'>
+          <DateInputTypeInFieldWithLabel
+            name='dateTypeIn'
+            label='Date Type-In'
+          />
         </Box>
         <Box mb='med'>
           <DropdownFieldWithLabel

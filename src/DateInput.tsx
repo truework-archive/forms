@@ -6,6 +6,10 @@ import { Box, Icon } from '@truework/ui'
 
 import { getLastDayOfMonth, zeroPadDate } from './utils/date'
 import { Label } from './Label'
+import IMask from 'imask'
+// @ts-ignore
+import { IMaskMixin } from 'react-imask'
+import { Input } from './Input'
 
 export type DateValidationOptions = {
   initialMonth?: number
@@ -355,6 +359,92 @@ export function DateInputFieldWithLabel (
     <>
       <Label htmlFor={props.name}>{props.label}</Label>
       <DateInputField {...props} />
+    </>
+  )
+}
+
+// Type-in DateInput
+const MaskedStyledInput = IMaskMixin(({ inputRef, ...props }: any) => (
+  <Input name='dateInputTypeIn' {...props} ref={inputRef} />
+))
+
+export function DateInputTypeIn ({ name }: { name: string }) {
+  const [value, setValue] = React.useState<string>('')
+
+  const onChangeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value)
+  }
+
+  const formatDate = (date: Date) => {
+    if (!date) return
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+
+    return [day, month, year].join('/')
+  }
+
+  const parseToDate = (s: string) => {
+    if (!s) return
+    const [month, date, year] = s.split('/')
+    return new Date(Number(year), Number(month) - 1, Number(date))
+  }
+
+  return (
+    <MaskedStyledInput
+      name={name}
+      value={value}
+      mask={Date}
+      lazy={false}
+      onInput={onChangeDate}
+      pattern={'mm{/}`dd{/}`Y'}
+      blocks={{
+        dd: {
+          mask: IMask.MaskedRange,
+          from: 1,
+          to: 31,
+          placeholderChar: 'd'
+        },
+        mm: {
+          mask: IMask.MaskedRange,
+          from: 1,
+          to: 12,
+          placeholderChar: 'm'
+        },
+        Y: {
+          mask: IMask.MaskedRange,
+          from: 1900,
+          to: 2099,
+          placeholderChar: 'y'
+        }
+      }}
+      format={formatDate}
+      parse={parseToDate}
+    />
+  )
+}
+
+export function DateInputTypeInField ({ name }: { name: string }) {
+  return (
+    <Field name={name}>
+      {({ field, form }: FieldProps) => {
+        return <DateInputTypeIn name={name} />
+      }}
+    </Field>
+  )
+}
+
+export function DateInputTypeInFieldWithLabel ({
+  name,
+  label
+}: {
+  name: string
+  label: string
+}) {
+  return (
+    <>
+      <Label htmlFor={name}>{label}</Label>
+      <DateInputTypeInField name={name} />
     </>
   )
 }
