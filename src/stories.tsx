@@ -22,7 +22,12 @@ import { Textarea, TextareaFieldWithLabel } from './Textarea'
 import { Checkbox, CheckboxField, CheckboxGroup } from './Checkbox'
 import { Radio, RadioFieldWithLabel } from './Radio'
 import { Toggle, ToggleField } from './Toggle'
-import { DateInput, DateInputFieldWithLabel } from './DateInput'
+import {
+  DateInput,
+  DateInputFieldWithLabel,
+  DateInputTypeIn,
+  DateInputTypeInField
+} from './DateInput'
 import { Dropdown, DropdownFieldWithLabel } from './Dropdown'
 import { SSNInput, SSNInputFieldWithLabel } from './SSNInput'
 import { Tile } from './Tile'
@@ -261,6 +266,15 @@ storiesOf('Base', module).add('DateInput', () => (
       <Label>Date</Label>
       <DateInput name='date' label='Date' onUpdate={() => {}} />
     </Box>
+
+    <Label>Date Type In</Label>
+    <Box mb='med'>
+      <DateInputTypeIn
+        name='dateTypeIn'
+        onChange={() => {}}
+        onBlur={() => {}}
+      />
+    </Box>
   </Gutter>
 ))
 
@@ -369,6 +383,7 @@ storiesOf('Formik', module).add('Basic', () => (
         toggle: '',
         date: '',
         dropdown: '',
+        dateTypeIn: '',
         ssn: '***-**-1234',
         tile_field: ''
       }}
@@ -377,6 +392,7 @@ storiesOf('Formik', module).add('Basic', () => (
         alert(val)
         console.log(val)
       }}
+      validateOnChange={false}
     >
       <Form>
         <Box mb='med'>
@@ -465,6 +481,12 @@ storiesOf('Formik', module).add('Basic', () => (
         <Box mb='med'>
           <DateInputFieldWithLabel name='date' label='Date' />
         </Box>
+        <Box mb='med'>
+          <Label>Date Type-In</Label>
+          <DateInputTypeInField name='dateTypeIn' />
+          <ErrorMessage name='dateTypeIn' />
+        </Box>
+
         <Box mb='med'>
           <DropdownFieldWithLabel
             name='dropdown'
