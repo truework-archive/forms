@@ -419,6 +419,7 @@ export function DateInputTypeInField ({ name, ...rest }: InputProps) {
     <Field name={name} validate={validate}>
       {({ field, form }: FieldProps) => {
         const hasError = Boolean(get(form, ['errors', name]))
+        delete field.value
 
         return (
           <DateInputTypeIn
