@@ -370,6 +370,7 @@ export function DateInputTypeIn ({
   hasError,
   onChange,
   onBlur,
+  value,
   ...rest
 }: InputProps) {
   return (
@@ -381,6 +382,7 @@ export function DateInputTypeIn ({
       type='text'
       onChange={onChange}
       onBlur={onBlur}
+      value={value}
       render={(inputRef, props) => (
         <Input
           name={name}
@@ -419,7 +421,6 @@ export function DateInputTypeInField ({ name, ...rest }: InputProps) {
     <Field name={name} validate={validate}>
       {({ field, form }: FieldProps) => {
         const hasError = Boolean(get(form, ['errors', name]))
-        delete field.value
 
         return (
           <DateInputTypeIn
