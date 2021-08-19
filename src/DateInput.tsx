@@ -373,6 +373,16 @@ export function DateInputTypeIn ({
   value,
   ...rest
 }: InputProps) {
+  const deserializeDate = React.useCallback(value => {
+    if (value.includes('-')) {
+      const [year, month, day] = value
+        ? value.split('-').map((v: string) => parseInt(v))
+        : ''
+      return `${month}/${day}/${year}`
+    }
+    return value
+  }, [])
+
   return (
     <MaskedInput
       name={name}
@@ -381,8 +391,18 @@ export function DateInputTypeIn ({
       placeholder='mm/dd/yyyy'
       type='text'
       onChange={onChange}
-      onBlur={onBlur}
-      value={value}
+      onBlur={e => {
+        const [month, date, year] = e.target.value
+          ? e.target.value.split('/').map((v: string) => parseInt(v))
+          : [0, 0, 0]
+        const deserializedValue = `${year}-${zeroPadDate(month)}-${zeroPadDate(
+          date
+        )}`
+        e.target.value = deserializedValue
+
+        if (onBlur) onBlur(e)
+      }}
+      value={deserializeDate(value)}
       render={(inputRef, props) => (
         <Input
           name={name}
@@ -403,7 +423,7 @@ export function DateInputTypeInField ({ name, ...rest }: InputProps) {
     }
 
     const moment = require('moment')
-    const [month, day, year] = value.split('/').map(v => parseInt(v))
+    const [year, month, day] = value.split('-').map(v => parseInt(v))
 
     if (year < 1900) {
       return 'The date you entered is not a valid date.'
@@ -422,10 +442,21 @@ export function DateInputTypeInField ({ name, ...rest }: InputProps) {
       {({ field, form }: FieldProps) => {
         const hasError = Boolean(get(form, ['errors', name]))
 
+        if (field.value.includes('-')) {
+          const [year, month, date] = field.value
+            .split('-')
+            .map((v: string) => parseInt(v))
+          field.value = `${zeroPadDate(month)}/${zeroPadDate(date)}/${year}`
+        }
+
         return (
           <DateInputTypeIn
             {...field}
             {...rest}
+            onBlur={e => {
+              form.setFieldValue(name, e.target.value)
+              field.onBlur(e)
+            }}
             name={name}
             hasError={hasError}
           />
