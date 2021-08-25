@@ -483,7 +483,10 @@ storiesOf('Formik', module).add('Basic', () => (
         </Box>
         <Box mb='med'>
           <Label>Date Type-In</Label>
-          <DateInputTypeInField name='dateTypeIn' />
+          <DateInputTypeInField
+            name='dateTypeIn'
+            validate={val => (val ? undefined : 'Failed custom validate')}
+          />
           <ErrorMessage name='dateTypeIn' />
         </Box>
 
