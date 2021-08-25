@@ -398,7 +398,9 @@ export function DateInputTypeIn ({
 
 export function DateInputTypeInField ({ name, ...rest }: InputProps) {
   const validate = React.useCallback((value: string) => {
-    if (!value) return
+    if (!value) {
+      return 'Required'
+    }
 
     const moment = require('moment')
     const [month, day, year] = value.split('/').map(v => parseInt(v))
