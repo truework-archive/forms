@@ -7,7 +7,7 @@ import { Box, Icon } from '@truework/ui'
 import { getLastDayOfMonth, zeroPadDate } from './utils/date'
 import { Label } from './Label'
 import MaskedInput from 'react-text-mask'
-import { Input, InputProps } from './Input'
+import { Input, InputFieldProps, InputProps } from './Input'
 
 export type DateValidationOptions = {
   initialMonth?: number
@@ -396,11 +396,13 @@ export function DateInputTypeIn ({
   )
 }
 
-export function DateInputTypeInField ({ name, ...rest }: InputProps) {
-  const validate = React.useCallback((value: string) => {
-    if (!value) {
-      return 'Required'
-    }
+export function DateInputTypeInField ({
+  name,
+  validate,
+  ...rest
+}: InputFieldProps) {
+  const isValidDate = React.useCallback((value: string) => {
+    if (!value) return
 
     const moment = require('moment')
     const [month, day, year] = value.split('/').map(v => parseInt(v))
@@ -418,7 +420,16 @@ export function DateInputTypeInField ({ name, ...rest }: InputProps) {
   }, [])
 
   return (
-    <Field name={name} validate={validate}>
+    <Field
+      name={name}
+      validate={(value: string) => {
+        if (validate) {
+          return validate(value) || isValidDate(value)
+        }
+
+        return isValidDate(value)
+      }}
+    >
       {({ field, form }: FieldProps) => {
         const hasError = Boolean(get(form, ['errors', name]))
 
