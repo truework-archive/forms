@@ -184,6 +184,7 @@ export function SelectField ({
           <Select
             {...rest}
             {...field}
+            id={name}
             hasError={hasError}
             onChange={e => {
               field.onChange(e)
