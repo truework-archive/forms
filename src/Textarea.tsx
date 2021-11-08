@@ -148,6 +148,7 @@ export function TextareaField ({
           <Textarea
             {...rest}
             {...field}
+            id={name}
             hasError={hasError}
             onChange={e => {
               field.onChange(e)
